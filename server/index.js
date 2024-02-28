@@ -1,6 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
 
 const app = express();
 require("dotenv").config();
@@ -8,6 +8,16 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-const server = app.listen(process.env.PORT, ()=>{
-    console.log(`server listening on port ${process.env.PORT}`);
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("db connection established");
+  })
+  .catch((err) => console.log(err.message));
+
+const server = app.listen(process.env.PORT, () => {
+  console.log(`server listening on port ${process.env.PORT}`);
 });
