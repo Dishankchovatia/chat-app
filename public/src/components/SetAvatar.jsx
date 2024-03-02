@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { setAvatarRoute } from "../utils/APIRoutes";
 
-
 export default function SetAvatar() {
   const api = `https://api.multiavatar.com/4645646`;
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ export default function SetAvatar() {
     theme: "dark",
   };
 
-  useEffect( () => {
+  useEffect(() => {
     if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY))
       navigate("/login");
   }, [navigate]);
@@ -54,8 +53,7 @@ export default function SetAvatar() {
     }
   };
 
-  useEffect(() =>{
-   
+  useEffect(() => {
     const getavatar = async () => {
       const data = [];
       for (let i = 0; i < 4; i++) {
@@ -70,9 +68,7 @@ export default function SetAvatar() {
     };
 
     getavatar();
-  },[api]);
-
-  
+  }, [api]);
 
   return (
     <>
@@ -89,7 +85,7 @@ export default function SetAvatar() {
             {avatars.map((avatar, index) => {
               return (
                 <div
-                  key = {index}
+                  key={index}
                   className={`avatar ${
                     selectedAvatar === index ? "selected" : ""
                   }`}

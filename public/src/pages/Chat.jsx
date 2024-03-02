@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
@@ -14,34 +13,39 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
-  useEffect(async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/login");
-    } else {
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-        )
-      );
-    }
-  }, []);
-  useEffect(() => {
-    if (currentUser) {
-      socket.current = io(host);
-      socket.current.emit("add-user", currentUser._id);
-    }
-  }, [currentUser]);
-
-  useEffect(async () => {
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
-        setContacts(data.data);
+  
+  
+  useEffect( () => {
+    const setuser = async () => {
+      if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/login");
       } else {
-        navigate("/setAvatar");
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
+          )
+        );
       }
-    }
+    };
+
+    setuser();
+  }, [localStorage]);
+
+  useEffect(() =>{
+    const sercuruser = async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+          setContacts(data.data);
+        } else {
+          navigate("/setAvatar");
+        }
+      }
+    };
+
+    sercuruser();
   }, [currentUser]);
+  
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
