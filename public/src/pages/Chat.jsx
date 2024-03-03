@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import styled from "styled-components";
 import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
@@ -13,9 +14,8 @@ export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
-  
-  
-  useEffect( () => {
+
+  useEffect(() => {
     const setuser = async () => {
       if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
         navigate("/login");
@@ -31,7 +31,14 @@ export default function Chat() {
     setuser();
   }, [localStorage]);
 
-  useEffect(() =>{
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     const sercuruser = async () => {
       if (currentUser) {
         if (currentUser.isAvatarImageSet) {
@@ -45,7 +52,7 @@ export default function Chat() {
 
     sercuruser();
   }, [currentUser]);
-  
+
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };

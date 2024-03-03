@@ -7,8 +7,7 @@ export default function Contacts({ contacts, changeChat }) {
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
   useEffect(() => {
-
-     const setdata = async () => {
+    const setdata = async () => {
       const data = await JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
       );
@@ -22,7 +21,7 @@ export default function Contacts({ contacts, changeChat }) {
     changeChat(contact);
   };
   return (
-   <>
+    <>
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">

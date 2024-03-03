@@ -6,15 +6,21 @@ import Logout from "./Logout";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 
-function ChatContainer({ currentChat }) {
-
+function ChatContainer({ currentChat, socket}) {
   const scrollRef = useRef();
   const [messages, setMessages] = useState([]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
 
   const handleSendMsg = async (msg) => {
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
+
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: data._id,
+      msg,
+    });
 
     await axios.post(sendMessageRoute, {
       from: data._id,
@@ -26,6 +32,19 @@ function ChatContainer({ currentChat }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-recieve", (msg) => {
+        setArrivalMessage({ fromSelf: false, message: msg });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+
 
   useEffect(() => {
     const chatdata = async () => {
@@ -41,11 +60,9 @@ function ChatContainer({ currentChat }) {
     chatdata();
   }, [currentChat]);
 
-  
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
 
   return (
     <Container>
@@ -82,7 +99,6 @@ function ChatContainer({ currentChat }) {
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
-
   );
 }
 

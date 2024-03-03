@@ -11,7 +11,7 @@ export default function ChatInput({ handleSendMsg }) {
     setShowEmojiPicker(!showEmojiPicker);
   };
 
-  const handleEmojiClick = ( emojiObject, event) => {
+  const handleEmojiClick = (emojiObject, event) => {
     let message = msg;
     message += emojiObject.emoji;
     setMsg(message);
@@ -86,7 +86,7 @@ const Container = styled.div`
         .epr-emoji-category-label {
           background-color: #080420;
         }
-        
+
         input {
           background-color: transparent;
           border-color: #9a86f3;
