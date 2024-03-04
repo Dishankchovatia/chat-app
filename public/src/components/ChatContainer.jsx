@@ -6,7 +6,7 @@ import Logout from "./Logout";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
 
-function ChatContainer({ currentChat, socket}) {
+function ChatContainer({ currentChat, socket }) {
   const scrollRef = useRef();
   const [messages, setMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -44,7 +44,6 @@ function ChatContainer({ currentChat, socket}) {
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
-
 
   useEffect(() => {
     const chatdata = async () => {
