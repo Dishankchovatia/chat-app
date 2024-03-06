@@ -30,7 +30,7 @@ app.use("/api/messages", messageRoutes);
 
 
 app.get("/", (req, res) => {
-  app.use(express.static(path.resolve(__dirname, "public", "build")));
+  app.use(express.static(path.resolve(__dirname, "public", "build","index.html")));
   res.sendFile(path.resolve(__dirname, "public", "build", "index.html"));
 });
 
