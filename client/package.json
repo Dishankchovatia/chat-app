@@ -10,7 +10,6 @@
     "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "emoji-picker-react": "^4.8.0",
-    "firebase": "^10.8.1",
     "lazy": "^1.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
