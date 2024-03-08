@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node index.js",
     "dev" : "npm run start"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dishankchovatia/chat-app.git"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+>>>>>>> parent of d12b806 (add build)
   },
   "author": "",
   "license": "ISC",

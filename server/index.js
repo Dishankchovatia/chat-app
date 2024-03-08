@@ -8,7 +8,6 @@ const socket = require("socket.io");
 require("dotenv").config();
 const path = require("path");
 
-
 app.use(cors());
 app.use(express.json());
 
@@ -27,11 +26,10 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+app.use('*' , function(req , res) {
 
+  res.sendFile(path.join(__dirname, "./public/build/index.html"));
 
-app.get("/", (req, res) => {
-  app.use(express.static(path.resolve(__dirname, "client", "build","index.html")));
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 const server = app.listen(process.env.PORT, () =>
